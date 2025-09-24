@@ -1,0 +1,86 @@
+[gd_scene load_steps=5 format=3 uid="uid://duomhx8b43bvh"]
+
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1_0hdma"]
+[ext_resource type="Script" path="res://scripts/Player.gd" id="2_9nx3j"]
+
+[sub_resource type="Environment" id="Environment_1hqtf"]
+background_mode = 1
+background_color = Color(0.4, 0.7, 1, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.8, 0.9, 1, 1)
+ambient_light_energy = 0.3
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_1j2v8"]
+height = 2.0
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_0hdma")
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 5, 0)
+light_energy = 0.8
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_1hqtf")
+
+[node name="Ground" type="StaticBody3D" parent="Environment"]
+
+[node name="GroundMesh" type="MeshInstance3D" parent="Environment/Ground"]
+transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 100, 0, -1, 0)
+mesh = SubResource("CapsuleMesh_1j2v8")
+
+[node name="GroundCollision" type="CollisionShape3D" parent="Environment/Ground"]
+transform = Transform3D(20, 0, 0, 0, 1, 0, 0, 0, 100, 0, -1, 0)
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("2_9nx3j")
+
+[node name="PlayerMesh" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("CapsuleMesh_1j2v8")
+
+[node name="PlayerCollision" type="CollisionShape3D" parent="Player"]
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 2, 5)
+fov = 60.0
+
+[node name="GameUI" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="GameUI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ScoreLabel" type="Label" parent="GameUI/Control"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 0.1
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "Score: 0"
+
+[node name="TouchControls" type="Control" parent="GameUI/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="JumpButton" type="TouchScreenButton" parent="GameUI/Control/TouchControls"]
+position = Vector2(0, 500)
+scale = Vector2(3, 3)
+action = "jump"
+
+[node name="LeftButton" type="TouchScreenButton" parent="GameUI/Control/TouchControls"]
+position = Vector2(50, 700)
+scale = Vector2(2, 2)
+action = "move_left"
+
+[node name="RightButton" type="TouchScreenButton" parent="GameUI/Control/TouchControls"]
+position = Vector2(350, 700)
+scale = Vector2(2, 2)
+action = "move_right"

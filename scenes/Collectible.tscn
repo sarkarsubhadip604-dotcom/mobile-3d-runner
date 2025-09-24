@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5n0q8k7rj6k5"]
+
+[ext_resource type="Script" path="res://scripts/Collectible.gd" id="1_jm4kx"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_1kj8v"]
+radius = 0.5
+height = 1.0
+
+[node name="Collectible" type="Area3D"]
+script = ExtResource("1_jm4kx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_1kj8v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
